@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Signup for Guillaume Floris Portfolio">
+	<meta name="robots" content="noindex">
+	<title>Connexion</title>
+	<link rel="stylesheet" type="text/css" href="login.css">
+    <link rel="icon" href="interface/favicon.svg" type="image/svg+xml">
+</head>
+
+<body>
+    <main>
+        <div class="modal-view">
+            <h1>Connexion</h1>
+            <content>
+                <form id="login-form" action="/login" method="post">
+
+                    <label for="username">Nom d'utilisateur</label>
+                    <input type="text" name="username" placeholder="Nom d'utilisateur"></input>
+
+                    <label for="password">Mot de passe</label>
+                    <input type="password" name="password" placeholder="Mot de passe"></input>
+
+                    <p class="form-feedback">* Error</p>
+                    <input type="submit" value="Se connecter"></input>
+                </form>
+            </content>
+        </div>
+    </main>
+
+    <script src="js/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<%
+	let userDescription = userInfos.description ? userInfos.description : 'Aucune description';;
+	userDescription = (userDescription.trim().length > 0) ? userDescription : 'Aucune description';
+%>
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="<%= userDescription %>">
+	<title>Guillaume Floris Photographe - Contact</title>
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<link rel="stylesheet" type="text/css" href="user.css">
+	<link rel="icon" href="interface/favicon.svg" type="image/svg+xml">
+</head>
+
+<body>
+	<button class="mobile-nav-button" type="button"></button>
+	<nav class="transparent-nav">
+		<div class="content-wrapper">
+			<ul>
+				<li><a href="/">Galerie</a></li>
+				<li class="nav-item-selected"><a href="/about">À propos</a></li>
+				<li><a href="/contact">Contact</a></li>
+			</ul>
+
+			<button class="nav-contact-button" onclick="location.href='/contact'" type="button">Me contacter</button>
+		</div>
+		<button class="mobile-nav-close-button" type="button"></button>
+	</nav>
+
+	<content>
+		<section class="user-description">
+			<div>
+				<h1>À PROPOS</h1>
+				<div class="img-container">
+					<img src="interface/title.svg">
+				</div>
+				<p class="description">
+					<%= userDescription %>
+				</p>		
+			</div>
+		</section>
+	</content>
+
+	<footer>
+		<div>
+			<ul class="content-wrapper">
+				<li><a href="https://www.instagram.com/f.l.0.g/">Instagram</a></li>
+				<li><a href="https://www.linkedin.com/in/guillaumefloris/">LinkedIn</a></li>
+				<li><a href="/contact">Contact</a></li>
+			</ul>
+		</div>
+
+		<div>
+			<ul class="content-wrapper">
+				<li><p>© 2024 - Site créé par <a href="http://alexisbergel.com">alexisbergel.com</a></p></li>
+			</ul>
+		</div>
+	</footer>
+
+	<div class="background-image">
+	</div>
+
+	<script src="js/nav.js"></script>
+</body>
+</html>

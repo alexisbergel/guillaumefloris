@@ -1,0 +1,176 @@
+<%
+	const dirname = '/images/users/';
+	const coverFilename = userInfos.cover_photo ? userInfos.cover_photo.split('.')[0] : '';
+	const userDescription = userInfos.description ? userInfos.description : 'Aucune description';
+
+	// visible-footer adjusts footer position if there is no post to be visible without scrolling
+	const visibleFooter = content.length === 0 ? ' visible-footer' : '';
+%>
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="<%= userDescription %>">
+	<title>Guillaume Floris Photographe</title>
+	<link rel="stylesheet" type="text/css" href="home.css">
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<link rel="icon" href="interface/favicon.svg" type="image/svg+xml">
+</head>
+
+<body>
+	<button class="mobile-nav-button" type="button" aria-label="Ouvrir le menu de navigation principal"></button>
+	<nav>
+		<div class="content-wrapper">
+			<ul>
+				<li class="nav-item-selected"><a href="/">Galerie</a></li>
+				<li><a href="/about">À propos</a></li>
+				<li><a href="/contact">Contact</a></li>
+			</ul>
+
+			<button class="nav-contact-button" onclick="location.href='/contact'" type="button">Me contacter</button>
+		</div>
+		<button class="mobile-nav-close-button" type="button" aria-label="Fermer le menu de navigation principal"></button>
+	</nav>
+
+	<content class="content-wrapper <%= visibleFooter %>">
+
+		<article class="header portrait">
+			<div class="text-component">
+				<h1>PHOTOGRAPHE</h1>
+				<img src="interface/title.svg" alt="Titre du site : Guillaume Floris">
+				<ul>
+					<% 
+						const tagsLength = tags.length;
+
+						for (let i = 0; i < tagsLength; i++) {
+							const tagName = tags[i].name;
+							const ariaLabel = `Filtrer les photos par catégorie ${tagName} (supprime le filtre si déjà selectionné)`;
+
+							%>
+								<li><button aria-label="<%= ariaLabel %>" class="tag-button" data-tag="<%= tagName %>" type="button"><%= tagName.toUpperCase() %></button></li>
+							<%
+						}
+					%>
+				</ul>
+			</div>
+			<div class="image-component">
+				<div>
+					<% 
+						if (coverFilename.length > 0) {
+							%>
+								<img 
+									src="images/users/<%= coverFilename %>_1080.jpg"
+									srcset="images/users/<%= coverFilename %>_2160.jpg 2160w"
+									alt="Cover image chosen by the photographer">
+							<%
+						}
+					%>
+					
+				</div></div>
+		</article>
+
+		<%
+			let previousOrientation;
+			const contentLength = content.length;
+
+			for(let i = 0; i < contentLength; i++) {
+				const item = content[i];
+
+				const filename = item.filename.split('.')[0];
+				const path = `images/resized/${filename}_1080.jpg`;
+				const tag = item.tagName ?? '';
+
+				const isFirstItem = i === 0;
+
+				// src for the first image (immediatly loaded), dataSrc for lazy loaded images
+				const src = isFirstItem ? path : '';
+				const dataSrc = !isFirstItem ? path : '';
+
+				// Lazy loading and spawn animation 
+				const lazy = !isFirstItem ? 'lazy' : '';
+				const hidden = !isFirstItem ? 'hidden' : '';
+
+				// Update item orientation for comparison
+				const currentOrientation = item.orientation === 'square' ? 'portrait' : item.orientation; 
+
+				// Overlapping property if two consecutives portrait item (and if first item is portrait)
+				const isOverlapping = currentOrientation === 'portrait' && (isFirstItem || previousOrientation === 'portrait');
+				const overlap = isOverlapping ? 'overlap' : '';
+
+				previousOrientation = currentOrientation;
+				
+				
+
+				%>
+				<article class="<%=`${currentOrientation} ${lazy} ${hidden} ${overlap}`%>" data-tag="<%= tag %>">
+				
+					<div class="text-component">
+						<div class="text-component-wrapper">
+							<h3><%= item.title %></h3>
+							<p><%= item.description %></p>
+						</div>
+					</div>
+					<div class="image-component">
+						<div>
+							<%
+								// Fisrt item isn't dynamically loaded - No need to data-src & data-srcset
+								if (isFirstItem) {
+									%>
+										<img 
+											src="<%= src %>"
+											srcset="
+												images/resized/<%= filename %>_720.jpg 720w,
+												images/resized/<%= filename %>_1080.jpg 1080w,
+												images/resized/<%= filename %>_2160.jpg 2160w"
+											alt="<%= item.description %>"
+											>
+									<%
+								} else {
+									%>
+										<img 
+											src="<%= src %>"
+											data-src="<%= dataSrc %>"
+											data-srcset="
+												images/resized/<%= filename %>_720.jpg 720w,
+												images/resized/<%= filename %>_1080.jpg 1080w,
+												images/resized/<%= filename %>_2160.jpg 2160w"
+											alt="<%= item.description %>"
+											>
+									<%
+								}
+							%>
+						</div>
+					</div>
+				</article>
+				<%
+			}
+		%>
+	</content>
+
+	<footer class="footer-extra-space">
+		<div>
+			<ul class="content-wrapper">
+				<li><a href="https://www.instagram.com/f.l.0.g/">Instagram</a></li>
+				<li><a href="https://www.linkedin.com/in/guillaumefloris/">LinkedIn</a></li>
+				<li><a href="/contact">Contact</a></li>
+				<li><a href="/about">À propos</a></li>
+			</ul>
+		</div>
+
+		<div>
+			<ul class="content-wrapper">
+				<li><p>© 2024 - Site créé par <a href="http://alexisbergel.com">alexisbergel.com</a></p></li>
+			</ul>
+		</div>
+	</footer>
+
+	<button class="responsive-contact-button" onclick="location.href='/contact'" type="button">Me contacter</button>
+
+	<script src="js/main.js"></script>
+	<script src="js/nav.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+.env
+init-db.sql
+.DS_Store
+.vscode/
+node_modules/

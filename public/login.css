@@ -1,0 +1,126 @@
+/*
+	400: REGULAR
+	500: MEDIUM
+	600: SEMI-BOLD
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+:root {
+	--red-color: #FF4953;
+}
+
+h1, h2, h3, p, a, textarea, button, label, input[type="submit"], input[type="text"], input[type="password"] {
+	font-family: "Inter", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-weight: normal;
+	font-style: normal;
+}
+
+button, input[type="submit"] {
+	border: none;
+}
+
+li {
+	list-style: none;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html, body {
+	height: 100%;
+    background-color: #F4F4F4;
+}
+
+
+
+/* Form */
+
+label {
+    margin-top: 20px;
+    margin-left: 4px;
+    display: block;
+    color: #151515;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    height: 42px;
+    border: 1px solid #E8E8E8;
+    border-radius: 10px;
+    background-color: #F9F9F9;
+    color: #5C5C5C;
+    font-size: 0.8125rem;
+    font-weight: 400;
+    padding-left: 16px;
+    margin-top: 8px;
+    margin-bottom: 12px;
+    display: block;
+    box-sizing: border-box;
+}
+
+input[type="text"]::placeholder, input[type="password"]::placeholder {
+    color: #D4D4D4;
+}
+
+.form-feedback {
+    opacity: 0;
+    margin-top: 40px;
+    margin-bottom: 10px;
+    line-height: 13px;
+    color: var(--red-color);
+    font-size: 0.6875rem;
+}
+
+.input-error .form-feedback {
+    opacity: 1;
+}
+
+input[type="submit"] {
+    width: 100%;
+    height: 40px;
+    background-color: #3D3D3D;
+    color: #FFF;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+
+
+/* Modal views */
+
+main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-view {
+    width: 100%;
+    max-width: 400px;
+    background-color: #FFF;
+    border-radius: 22px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.modal-view content {
+    margin: 20px;
+    display: block;
+}
+
+.modal-view h1 {
+    font-size: 1rem;
+    font-weight: 600;
+    border-bottom: 1px solid #F1F1F1;
+    padding: 20px 20px 20px 24px;
+}

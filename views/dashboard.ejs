@@ -1,0 +1,181 @@
+<%
+	const fullname = user.fullname ?? '';
+	let userDescription = user.description ?? '';
+	userDescription = (userDescription.trim().length > 0) ? user.description : 'Aucune description';
+
+	const dirname = '/images/users/';
+	let pictureName = user.profile_photo ? dirname + user.profile_photo.split('.')[0] + '_1080.jpg' : 'interface/profile.jpg';
+	let coverName = user.cover_photo ? dirname + user.cover_photo.split('.')[0] + '_1080.jpg' : '';
+
+	const dataLength = data.length;
+	const footerText = dataLength > 0 ? `${dataLength} publications` : `Aucune publication`;
+%>
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="<%= userDescription %>">
+	<meta name="robots" content="noindex">
+	<title>Dashboard - Guillaume Floris</title>
+	<link rel="stylesheet" type="text/css" href="dashboard.css">
+	<link rel="icon" href="interface/favicon.svg" type="image/svg+xml">
+</head>
+
+<body>
+	<main>
+		<nav>
+			<h1>Dashboard</h1>
+
+			<span id="nav-menu" data-active="false">
+				<div role="button" id="nav-menu-button">
+					<img src="<%= pictureName %>" alt="">
+					<% if (fullname.length !== 0) { %>
+						<p><%= fullname %></p>
+					<% } %>
+				</div>
+
+				<div id="context-menu">
+					<content>
+						<ul>
+							<li><a href="#">Profil</a></li>
+							<li><a href="/">Portfolio</a></li>
+						</ul>
+						<ul>
+							<li class="important-item"><a href="/logout">Déconnexion</a></li>
+						</ul>
+					</content>
+				</div>
+			</span>			
+		</nav>
+	
+		<div id="profile">
+			<img src="<%= pictureName %>" alt="">
+			<p><%= userDescription %></p>
+		</div>
+	
+		<section id="gallery">
+			<div id="gallery-nav">
+				<ul>
+					<li class="selected-item"><a href="#">Publications</a></li>
+				</ul>
+			</div>
+	
+			<content id="content">
+				<% 	
+					for(let i = 0; i < dataLength; i++) { 
+						const item = data[i];
+
+						let filename = item.filename.split('.')[0] + '_1080.jpg';
+						filename = 'images/resized/' + filename;
+
+						const itemId = item.id;
+						const itemTitle = item.title;
+						const itemDescription = item.description;
+						const tagId = item.tag_id;
+					%>
+					<div class="item" data-id="<%= itemId %>" data-title="<%= itemTitle %>" data-description="<%= itemDescription %>" data-tag="<%= tagId %>"><img src="<%= filename %>" alt=""></div>
+					<% 
+					} 
+				%>
+			</content>
+		</section>
+	</main>
+
+	<footer>
+		<p><%= footerText %></p>
+	</footer>
+
+	<button id="add-button" type="button"></button>
+
+
+
+	<!-- MODAL -->
+	<div class="modal" id="post-modal" data-active="false">
+		<div class="modal-view">
+			<content>
+				<div class="modal-header">
+					<h3>Nouveau post</h3>
+					<button class="modal-close-button" type="button"></button>
+				</div>
+				
+				<textarea id="post-modal-title" rows="1" placeholder="Écrire un titre"></textarea>
+				<textarea id="post-modal-description" rows="1" placeholder="Description"></textarea>
+	
+				<div id="post-modal-preview" role="button">
+					<img src="">
+					<div class="post-modal-preview-placeholder"></div>
+				</div>
+			
+				<div id="post-modal-tags">
+					<%
+						const tagsLength = tags.length;
+
+						for (let i = 0; i < tagsLength; i++) {
+							const tagId = tags[i].id;
+							const tagName = tags[i].name;
+							%>
+								<button data-tag="<%= tagId %>" type="button"><%= tagName.toUpperCase() %></button>
+							<%
+						}
+					%>
+				</div>
+			</content>
+
+			<div id="post-modal-controls">
+				<button type="button" id="post-modal-delete-button"><img src="interface/delete-icon.svg"></button>
+				<button type="button" id="post-modal-save-button">Publier</button>
+			</div>
+
+			<input name="file" type="file" accept="image/png, image/jpeg">
+		</div>
+	</div>
+
+	<div class="modal" id="profile-modal" data-active="false">
+		<div class="modal-view">
+			<content>
+				<div class="modal-header">
+					<h3>Profil</h3>
+					<button class="modal-close-button" type="button"></button>
+				</div>
+
+				<div id="profile-modal-cover">
+					<div class="profile-modal-cover-overlay">
+						<button class="profile-modal-cover-overlay-button" type="button" aria-label="Ajouter une photo de couverture"></button>
+					</div>
+					<img id="profile-modal-cover-picture" src="<%= coverName %>" alt="">
+				</div>
+
+				<div id="profile-modal-photo">
+					<div>
+						<div class="profile-modal-photo-overlay">
+							<button class="profile-modal-photo-overlay-button" type="button" aria-label="Ajouter une photo de profil"></button>	
+						</div>
+						<img id="profile-modal-photo-picture" src="<%= pictureName %>" alt="">
+					</div>
+				</div>
+
+				<form method="post">
+					<label for="fullname">Nom d'utilisateur</label>
+					<input type="text" name="fullname" placeholder="Nom d'utilisateur" value="<%= fullname %>"/>
+
+					<%
+						userDescription = (userDescription === 'Aucune description') ? '' : userDescription;
+					%>
+					
+					<label for="description">Description</label>
+					<textarea name="description" placeholder="Description"><%= userDescription %></textarea>
+
+					<input name="file" id="file-input" type="file" accept="image/png, image/jpeg">
+					<input name="file2" type="file" accept="image/png, image/jpeg">
+					<input type="submit" value="Enregistrer">
+				</form>
+			</content>
+		</div>
+	</div>
+	
+	<script type="module" src="js/dashboard.js"></script>
+</body>
+</html>
