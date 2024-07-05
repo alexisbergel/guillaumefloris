@@ -5,7 +5,7 @@ services:
     build: .
     restart: unless-stopped
     ports:
-      - "127.0.0.1:3000:3000"
+      - ${APP_PORT}
     depends_on:
       mysql:
         condition: service_healthy
@@ -29,7 +29,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
     ports:
-      - "3306:3306"
+      - ${MYSQL_PORT}
     volumes:
       - ./config/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
       - mysql-data:/var/lib/mysql
